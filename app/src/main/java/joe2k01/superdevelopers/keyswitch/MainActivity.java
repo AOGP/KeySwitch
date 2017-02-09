@@ -44,9 +44,13 @@ public class MainActivity extends Activity
                         {
                             out = 1;
                         }
-                        else
+                        else if(line.matches("#disabled"))
                         {
                             out = 0;
+                        }
+                        else
+                        {
+                            out = 2;
                         }
                     }
                 }
@@ -87,6 +91,23 @@ public class MainActivity extends Activity
                             run.writeBytes("mount -o rw,remount,rw /system\n");
                             run.flush();
                             run.writeBytes("sed -i 's/#disabled/qemu.hw.mainkeys=0/g' /system/build.prop\n");
+                            run.flush();
+                            run.writeBytes("sed -i '124s/key/#key/g' /system/usr/keylayout/Generic.kl\n");
+                            run.flush();
+                            run.writeBytes("sed -i '161s/key/#key/g' /system/usr/keylayout/Generic.kl\n");
+                            run.flush();
+                            run.writeBytes("sed -i '180s/key/#key/g' /system/usr/keylayout/Generic.kl\n");
+                            run.flush();
+                            run.writeBytes("reboot\n");
+                        }
+                        if(out == 2)
+                        {
+                            Log.d("key", "nothing");
+                            p = Runtime.getRuntime().exec("su");
+                            run = new DataOutputStream(p.getOutputStream());
+                            run.writeBytes("mount -o rw,remount,rw /system\n");
+                            run.flush();
+                            run.writeBytes("echo 'qemu.hw.mainkeys=0' >> /system/build.prop\n");
                             run.flush();
                             run.writeBytes("sed -i '124s/key/#key/g' /system/usr/keylayout/Generic.kl\n");
                             run.flush();
