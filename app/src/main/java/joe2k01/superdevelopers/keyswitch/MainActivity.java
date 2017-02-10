@@ -44,13 +44,9 @@ public class MainActivity extends Activity
                         {
                             out = 1;
                         }
-                        else if(line.matches("#disabled"))
-                        {
-                            out = 0;
-                        }
                         else
                         {
-                            out = 2;
+                            out = 0;
                         }
                     }
                 }
@@ -73,7 +69,7 @@ public class MainActivity extends Activity
                             run = new DataOutputStream(p.getOutputStream());
                             run.writeBytes("mount -o rw,remount,rw /system\n");
                             run.flush();
-                            run.writeBytes("sed -i 's/qemu.hw.mainkeys=0/#disabled/g' /system/build.prop\n");
+                            run.writeBytes("sed -i '$d' /system/build.prop\n");
                             run.flush();
                             run.writeBytes("sed -i '124s/#key/key/g' /system/usr/keylayout/Generic.kl\n");
                             run.flush();
@@ -84,23 +80,6 @@ public class MainActivity extends Activity
                             run.writeBytes("reboot\n");
                         }
                         if(out == 0)
-                        {
-                            Log.d("key", "#disabled");
-                            p = Runtime.getRuntime().exec("su");
-                            run = new DataOutputStream(p.getOutputStream());
-                            run.writeBytes("mount -o rw,remount,rw /system\n");
-                            run.flush();
-                            run.writeBytes("sed -i 's/#disabled/qemu.hw.mainkeys=0/g' /system/build.prop\n");
-                            run.flush();
-                            run.writeBytes("sed -i '124s/key/#key/g' /system/usr/keylayout/Generic.kl\n");
-                            run.flush();
-                            run.writeBytes("sed -i '161s/key/#key/g' /system/usr/keylayout/Generic.kl\n");
-                            run.flush();
-                            run.writeBytes("sed -i '180s/key/#key/g' /system/usr/keylayout/Generic.kl\n");
-                            run.flush();
-                            run.writeBytes("reboot\n");
-                        }
-                        if(out == 2)
                         {
                             Log.d("key", "nothing");
                             p = Runtime.getRuntime().exec("su");
@@ -117,6 +96,7 @@ public class MainActivity extends Activity
                             run.flush();
                             run.writeBytes("reboot\n");
                         }
+
                     }
                     catch (IOException ex)
                     {
