@@ -11,9 +11,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="joe2k01.superdevelopers.keyswitch.MainActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:text="If you click on the apply button, the phone will reboot. Hw buttons will be disabled and navbar will be enabled or viceversa"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_reboot"/>
+        android:id="@+id/btn_reboot"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:text="Apply"
+        android:backgroundTint="@color/colorPrimary"/>
 
 </RelativeLayout>
