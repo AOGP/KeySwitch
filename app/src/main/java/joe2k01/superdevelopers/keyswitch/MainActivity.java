@@ -31,22 +31,24 @@ public class MainActivity extends Activity
             @Override
             public void onClick(View v)
             {
-                BufferedReader  buffered_reader=null;
+                BufferedReader  br = null;
                 try
                 {
-                    buffered_reader = new BufferedReader(new FileReader("/system/build.prop"));
+                    br = new BufferedReader(new FileReader("/system/build.prop"));
                     String line;
 
-                    while ((line = buffered_reader.readLine()) != null)
+                    while ((line = br.readLine()) != null)
                     {
                         System.out.println(line);
                         if(line.matches("qemu.hw.mainkeys=0"))
                         {
                             out = 1;
+                            // if a line of the build.prop file matches the string out is 1
                         }
                         else
                         {
                             out = 0;
+                            // else out is 0
                         }
                     }
                 }
@@ -58,17 +60,19 @@ public class MainActivity extends Activity
                 {
                     try
                     {
-                        if (buffered_reader != null)
+                        if (br != null)
                         {
-                            buffered_reader.close();
+                            br.close();
                         }
                         if(out == 1)
                         {
                             Log.d("key", "qemu");
                             p = Runtime.getRuntime().exec("su");
+                            // Get root
                             run = new DataOutputStream(p.getOutputStream());
                             run.writeBytes("mount -o rw,remount,rw /system\n");
                             run.flush();
+                            // Mount system as read-write
                             run.writeBytes("sed -i '$d' /system/build.prop\n");
                             run.flush();
                             run.writeBytes("sed -i '124s/#key/key/g' /system/usr/keylayout/Generic.kl\n");
@@ -77,15 +81,18 @@ public class MainActivity extends Activity
                             run.flush();
                             run.writeBytes("sed -i '180s/#key/key/g' /system/usr/keylayout/Generic.kl\n");
                             run.flush();
+                            // Change strings inside Generic.kl and build.prop
                             run.writeBytes("reboot\n");
                         }
                         if(out == 0)
                         {
                             Log.d("key", "nothing");
+                            // Get root
                             p = Runtime.getRuntime().exec("su");
                             run = new DataOutputStream(p.getOutputStream());
                             run.writeBytes("mount -o rw,remount,rw /system\n");
                             run.flush();
+                            // Mount system as read-write
                             run.writeBytes("echo 'qemu.hw.mainkeys=0' >> /system/build.prop\n");
                             run.flush();
                             run.writeBytes("sed -i '124s/key/#key/g' /system/usr/keylayout/Generic.kl\n");
@@ -94,6 +101,7 @@ public class MainActivity extends Activity
                             run.flush();
                             run.writeBytes("sed -i '180s/key/#key/g' /system/usr/keylayout/Generic.kl\n");
                             run.flush();
+                            // Change strings inside Generic.kl and build.prop
                             run.writeBytes("reboot\n");
                         }
 
