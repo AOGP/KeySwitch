@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">KeySwitch</string>
+    <string name="button">Apply</string>
 </resources>
