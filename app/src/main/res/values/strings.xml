@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">KeySwitch</string>
     <string name="button">Apply</string>
+    <string name="description">If you click on the apply button, the phone will reboot. Hw buttons will be disabled and navbar will be enabled or viceversa</string>
 </resources>
