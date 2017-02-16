@@ -81,6 +81,8 @@ public class MainActivity extends Activity
                             run.flush();
                             run.writeBytes("sed -i '180s/#key/key/g' /system/usr/keylayout/Generic.kl\n");
                             run.flush();
+                            run.writeBytes("sed -i '194s/#key/key/g' /system/usr/keylayout/Generic.kl\n");
+                            run.flush();
                             // Change strings inside Generic.kl and build.prop
                             run.writeBytes("reboot\n");
                         }
@@ -100,6 +102,8 @@ public class MainActivity extends Activity
                             run.writeBytes("sed -i '161s/key/#key/g' /system/usr/keylayout/Generic.kl\n");
                             run.flush();
                             run.writeBytes("sed -i '180s/key/#key/g' /system/usr/keylayout/Generic.kl\n");
+                            run.flush();
+                            run.writeBytes("sed -i '194s/#key/key/g' /system/usr/keylayout/Generic.kl\n");
                             run.flush();
                             // Change strings inside Generic.kl and build.prop
                             run.writeBytes("reboot\n");
