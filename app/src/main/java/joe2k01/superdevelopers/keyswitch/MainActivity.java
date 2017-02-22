@@ -12,8 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 
-public class MainActivity extends Activity
-{
+public class MainActivity extends Activity {
     Button reboot;
     int out;
     java.lang.Process p;
@@ -21,51 +20,36 @@ public class MainActivity extends Activity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         reboot = (Button) findViewById(R.id.btn_reboot);
-        reboot.setOnClickListener(new View.OnClickListener()
-        {
+        reboot.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                BufferedReader  br = null;
-                try
-                {
+            public void onClick(View v) {
+                BufferedReader br = null;
+                try {
                     br = new BufferedReader(new FileReader("/system/build.prop"));
                     String line;
 
-                    while ((line = br.readLine()) != null)
-                    {
+                    while ((line = br.readLine()) != null) {
                         System.out.println(line);
-                        if(line.matches("qemu.hw.mainkeys=0"))
-                        {
+                        if (line.matches("qemu.hw.mainkeys=0")) {
                             out = 1;
                             // if a line of the build.prop file matches the string out is 1
-                        }
-                        else
-                        {
+                        } else {
                             out = 0;
                             // else out is 0
                         }
                     }
-                }
-                catch (IOException e)
-                {
+                } catch (IOException e) {
                     e.printStackTrace();
-                }
-                finally
-                {
-                    try
-                    {
-                        if (br != null)
-                        {
+                } finally {
+                    try {
+                        if (br != null) {
                             br.close();
                         }
-                        if(out == 1)
-                        {
+                        if (out == 1) {
                             Log.d("key", "qemu");
                             p = Runtime.getRuntime().exec("su");
                             // Get root
@@ -86,8 +70,7 @@ public class MainActivity extends Activity
                             // Change strings inside Generic.kl and build.prop
                             run.writeBytes("reboot\n");
                         }
-                        if(out == 0)
-                        {
+                        if (out == 0) {
                             Log.d("key", "nothing");
                             // Get root
                             p = Runtime.getRuntime().exec("su");
@@ -103,15 +86,13 @@ public class MainActivity extends Activity
                             run.flush();
                             run.writeBytes("sed -i '180s/key/#key/g' /system/usr/keylayout/Generic.kl\n");
                             run.flush();
-                            run.writeBytes("sed -i '194s/#key/key/g' /system/usr/keylayout/Generic.kl\n");
+                            run.writeBytes("sed -i '194s/key/#key/g' /system/usr/keylayout/Generic.kl\n");
                             run.flush();
                             // Change strings inside Generic.kl and build.prop
                             run.writeBytes("reboot\n");
                         }
 
-                    }
-                    catch (IOException ex)
-                    {
+                    } catch (IOException ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -120,6 +101,4 @@ public class MainActivity extends Activity
 
 
     }
-
-
 }
