@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">KeySwitch</string>
     <string name="button">Applica</string>
     <string name="description">Se il pulsante applica verrà cliccato, il telefono verrà riavviato. I tasti hardware saranno disabilitati e i controlli a schermo verranno abilitati o viceversa</string>
 </resources>
