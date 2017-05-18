@@ -1,4 +1,4 @@
-###KeySwitch
+### KeySwitch
 KeySwitch it's an app that allows you to enable or disable the navigation bar.
 It needs only a rooted phone.
 
